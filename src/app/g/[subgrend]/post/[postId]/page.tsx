@@ -23,7 +23,7 @@ export default async function Page({params}: PageProps) {
 
     
 
-    const cachedpost= (await redis.hgetall(`post:${params.postId}`)) as CachedPost
+    const cachedpost= (await redis.hgetall(`post:${params.postId}`)) as unknown as CachedPost
     // console.log("cachedpost:-   ",cachedpost)
 
     let post: (Post & { votes: Vote[]; author: User }) | null = null
