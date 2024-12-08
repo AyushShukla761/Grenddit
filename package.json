@@ -72,7 +72,6 @@
     "toast": "^0.5.4",
     "typescript": "5.0.4",
     "uploadthing": "^7.4.0",
-    "yarn": "^1.22.22",
     "zod": "^3.21.4"
   },
   "devDependencies": {
