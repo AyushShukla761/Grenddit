@@ -53,7 +53,7 @@
     "lucide-react": "^0.221.0",
     "mysql": "^2.18.1",
     "nanoid": "^4.0.2",
-    "next": "^15.0.4-canary.47",
+    "next": "^13.4.4",
     "next-auth": "^4.24.8",
     "postcss": "8.4.23",
     "react": "18.2.0",
