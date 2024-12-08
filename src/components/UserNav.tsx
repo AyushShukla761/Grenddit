@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/Dropdownmenu'
+} from '@/components/ui/DropdownMenu'
 import { UserAvatar } from '@/components/UserAvatar'
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
