@@ -28,18 +28,19 @@ export default async function Page({params}: PageProps) {
 
     let post: (Post & { votes: Vote[]; author: User }) | null = null
 
-    if(cachedpost===null || cachedpost===undefined){
-        post= await db.post.findFirst({
-            where: {
-                id: params.postId
-            },
-            include:{ 
-                votes: true,
-                author: true
-            }
-        })
+    // if(cachedpost===null || cachedpost===undefined){
+        
 
-    }
+    // }
+    post= await db.post.findFirst({
+        where: {
+            id: params.postId
+        },
+        include:{ 
+            votes: true,
+            author: true
+        }
+    })
 
 
     if(!post && !cachedpost) return notFound()
