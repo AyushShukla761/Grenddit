@@ -60,9 +60,9 @@ export default function SearchBar() {
                 placeholder="Search"
                 isLoading={isFetching}
             />
-            {Input!=='' ? (
+            {result!==undefined ? (
                 <CommandList className="absolute bg-white top-full inset-x-0 shadow rounded-b-md">
-                    {isFetched && result?.length === 0 && <CommandEmpty>No results found.</CommandEmpty>}
+                    {isFetched && result?.length === 0 && Input!='' && <CommandEmpty>No results found.</CommandEmpty>}
                     {(result?.length ?? 0) > 0 && (
                         <CommandGroup heading="Communities">
                             {(result ?? []).map((subgrenddit) => (

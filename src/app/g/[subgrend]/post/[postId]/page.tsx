@@ -16,7 +16,7 @@ interface PageProps{
         postId: string
     }
 }
-export const dynamic = 'force-dynamic'
+ export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
 export default async function Page({params}: PageProps) {
@@ -24,23 +24,37 @@ export default async function Page({params}: PageProps) {
     
 
     const cachedpost= (await redis.hgetall(`post:${params.postId}`)) as unknown as CachedPost
-    // console.log("cachedpost:-   ",cachedpost)
-
+    
     let post: (Post & { votes: Vote[]; author: User }) | null = null
-
-    // if(cachedpost===null || cachedpost===undefined){
+    
+    if(cachedpost===null || cachedpost===undefined || Object.keys(cachedpost).length === 0){
         
+        post= await db.post.findFirst({
+            where: {
+                id: params.postId
+            },
+            include:{ 
+                votes: true,
+                author: true
+            }
+        })
+    }
 
-    // }
-    post= await db.post.findFirst({
-        where: {
-            id: params.postId
-        },
-        include:{ 
-            votes: true,
-            author: true
-        }
-    })
+
+    if(post){
+        cachedpost.id=post?.id
+        cachedpost.authorUsername= post?.author.name || ''
+        cachedpost.content=JSON.stringify(post?.content)
+        cachedpost.createdAt=post.createdAt
+        cachedpost.title=post.title
+        cachedpost.currentVote=post.votes[0].type
+
+        await redis.hset(`post:${params.postId}`,cachedpost)
+    }
+
+
+
+    
 
 
     if(!post && !cachedpost) return notFound()
