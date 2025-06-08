@@ -5,13 +5,13 @@ import { toast } from '@/hooks/use-toast'
 import { PostCreationRequest, PostValidator } from '@/lib/validators/post'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 import { z } from 'zod'
-
+import { useCustomToasts } from '@/hooks/use-custom-toasts'
 
 
 
@@ -47,6 +47,7 @@ const Editor = ({ subgrendditId }: EditorProps) => {
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const pathname = usePathname()
 
+  const {loginToast}= useCustomToasts()
 
   const { mutate: createPost } = useMutation({
     mutationFn: async ({
@@ -58,7 +59,19 @@ const Editor = ({ subgrendditId }: EditorProps) => {
       const { data } = await axios.post('/api/subgrenddit/post/create', payload)
       return data
     },
-    onError: () => {
+    onError: (err) => {
+      if(err instanceof AxiosError){
+        if (err.response?.status === 401) {
+          return loginToast()
+        }
+        if (err.response?.status === 403) {
+          return toast({
+            title: 'You are not subscribed.',
+            description: 'Please subscribe to grenddit.',
+            variant: 'destructive',
+          })
+        }
+      }
       return toast({
         title: 'Something went wrong.',
         description: 'Your post was not published. Please try again.',

@@ -28,7 +28,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subgrendditName }) => {
     async ({ pageParam = 1 }) => {
       const query =
         `/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-        (!!subgrendditName ? `&subrgrendditName=${subgrendditName}` : '')
+        (!!subgrendditName ? `&subgrendditName=${subgrendditName}` : '')
 
       const { data } = await axios.get(query)
       return data as ExtendedPost[]
@@ -41,6 +41,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subgrendditName }) => {
       initialData: { pages: [initialPosts], pageParams: [1] },
     }
   )
+
 
   useEffect(() => {
     if (entry?.isIntersecting) {

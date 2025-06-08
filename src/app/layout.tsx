@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import {Inter} from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Providers from '@/components/Provider'
+import {Toaster} from '@/components/ui/toaster'
 
 
 export const metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({
           </div>
 
           </Providers>
+          <Toaster/>
         </body>
     </html>
   )

@@ -18,15 +18,15 @@ export const metadata: Metadata={
 
 const Layout = async ({
     children,
-    params: { slug },
+    params: { subgrend },
   }: {
     children: ReactNode
-    params: { slug: string }
+    params: { subgrend: string }
   }) => {
     const session = await getAuthSession()
   
     const subgrenddit = await db.subgrenddit.findFirst({
-      where: { name: slug },
+      where: { name: subgrend },
       include: {
         posts: {
           include: {
@@ -42,7 +42,7 @@ const Layout = async ({
       : await db.subscription.findFirst({
           where: {
             subgrenddit: {
-              name: slug,
+              name: subgrend,
             },
             user: {
               id: session.user.id,
@@ -57,7 +57,7 @@ const Layout = async ({
     const memberCount = await db.subscription.count({
       where: {
         subgrenddit: {
-          name: slug,
+          name: subgrend,
         },
       },
     })
@@ -113,7 +113,7 @@ const Layout = async ({
                     variant: 'outline',
                     className: 'w-full mb-6',
                   })}
-                  href={`g/${slug}/submit`}>
+                  href={`g/${subgrenddit.name}/submit`}>
                   Create Post
                 </Link>
               </dl>

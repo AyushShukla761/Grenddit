@@ -8,12 +8,14 @@ import axios, {AxiosError} from "axios"
 import { CreateSubgrendditPayload } from "@/lib/validators/subgrenddit"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/input"
+import { useCustomToasts } from "@/hooks/use-custom-toasts"
 
 
 export default function Page(){
     const router =useRouter()
     const [input, setInput] =useState('')
     const {toast}= useToast()
+    const {loginToast}= useCustomToasts()
     const {mutate: createCommunity, isLoading} = useMutation({
         mutationFn: async () => {
             const payload: CreateSubgrendditPayload = {
@@ -27,7 +29,7 @@ export default function Page(){
             if (err instanceof AxiosError) {
               if (err.response?.status === 409) {
                 return toast({
-                  title: 'Subreddit already exists.',
+                  title: 'Subgrenddit already exists.',
                   description: 'Please choose a different name.',
                   variant: 'destructive',
                 })
@@ -35,29 +37,30 @@ export default function Page(){
       
               if (err.response?.status === 422) {
                 return toast({
-                  title: 'Invalid subreddit name.',
+                  title: 'Invalid subgrenddit name.',
                   description: 'Please choose a name between 3 and 21 letters.',
                   variant: 'destructive',
                 })
               }
       
               if (err.response?.status === 401) {
-                return toast({
-                    title: 'Login error.',
-                  description: 'Please try again',
-                  variant: 'destructive',
-                })
+                return loginToast();
               }
             }
       
-            toast({
+            return toast({
               title: 'There was an error.',
-              description: 'Could not create subreddit.',
+              description: 'Could not create subgrenddit.',
               variant: 'destructive',
             })
           },
           onSuccess: (data) => {
             router.push(`/g/${data}`)
+            return toast({
+              title: 'Successfully Created.',
+              description: 'Start with your first post.',
+              variant: 'default',
+            })
           },
     })
 

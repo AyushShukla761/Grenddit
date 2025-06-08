@@ -86,7 +86,7 @@ model Post {
   subgrenddit   Subgrenddit @relation(fields: [subgrendditId], references: [id])
   comments      Comment[]
   votes         Vote[]
-}
+} 
 
 model Comment {
   id        String        @id @default(cuid())

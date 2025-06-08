@@ -5,18 +5,18 @@ import { notFound } from 'next/navigation'
 import Editor from '@/components/Editor'
 interface pageProps {
   params: {
-    slug: string
+    subgrend: string
   }
 }
 
 const page = async ({ params }: pageProps) => {
-  const subreddit = await db.subgrenddit.findFirst({
+  const subgrenddit = await db.subgrenddit.findFirst({
     where: {
-      name: params.slug,
+      name: params.subgrend,
     },
   })
 
-  if (!subreddit) return notFound()
+  if (!subgrenddit) return notFound()
 
   return (
     <div className='flex flex-col items-start gap-6'>
@@ -27,13 +27,13 @@ const page = async ({ params }: pageProps) => {
             Create Post
           </h3>
           <p className='ml-2 mt-1 truncate text-sm text-gray-500'>
-            in g/{params.slug}
+            in g/{params.subgrend}
           </p>
         </div>
       </div>
 
       {/* form */}
-      <Editor subgrendditId={subreddit.id} />
+      <Editor subgrendditId={subgrenddit.id} />
 
       <div className='w-full flex justify-end'>
       <Button type='submit' className='w-full' form='subreddit-post-form'>

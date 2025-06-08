@@ -14,7 +14,7 @@ interface PageProps {
   }
 
 export default async function Page({params} : PageProps){
-    const {subgrend}= params
+    const subgrend= params.subgrend
     const session =await getAuthSession()
     const subgrenddit= await db.subgrenddit.findFirst({
         where: { name: subgrend },
@@ -42,7 +42,7 @@ export default async function Page({params} : PageProps){
       </h1>
       <MiniCreatePost session={session} />
 
-      <PostFeed initialPosts={subgrenddit.posts} subgrendditName={subgrenddit.name} />
+      <PostFeed initialPosts={subgrenddit.posts} subgrendditName={subgrend} />
     </>
     )
 }
